@@ -1,0 +1,50 @@
+[
+    {
+        "id": "273",
+        "imagem": "imagem1",
+        "nome": "Modelo Negra",
+        "descricao": "12 Unit * 33oz Bottle",
+        "preco": "RD$32.00/Unit",
+        "promocao": "Buy 3, get 1 free."
+    },
+    {
+        "id": "73",
+        "imagem": "imagem1",
+        "nome": "testekk",
+        "descricao": "testell",
+        "preco": "testem,m",
+        "promocao": "testedd"
+    },
+    {
+        "id": "256",
+        "imagem": "xddddddddddddd",
+        "nome": "teste update",
+        "descricao": "kkkkk",
+        "preco": "xdddddddddd",
+        "promocao": "ultimo"
+    },
+    {
+        "id": "97",
+        "imagem": "imagem1",
+        "nome": "teste3kkk",
+        "descricao": "teste3",
+        "preco": "teste3",
+        "promocao": "teste3"
+    },
+    {
+        "id": "299",
+        "imagem": "xeeeeeeddddddddddddd",
+        "nome": "teste update",
+        "descricao": "kkkkk",
+        "preco": "xdddddddddd",
+        "promocao": "ultimo"
+    },
+    {
+        "id": "3012",
+        "imagem": "xeeeeeeddddddddddddd",
+        "nome": "teste update",
+        "descricao": "kkkkk",
+        "preco": "xdddddddddd",
+        "promocao": "ultimo"
+    }
+]
