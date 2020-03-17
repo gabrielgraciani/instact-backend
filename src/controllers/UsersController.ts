@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { v4 as uuid } from 'uuid';
 import usersData from '../data/users.json';
 import path from 'path';
 import fs from 'fs';
@@ -11,6 +12,7 @@ export default {
 
     async saveUser(req: Request, res: Response){
         const user = req.body;
+        user.id = uuid();
         usersData.push(user);
 
         const pathToFile = path.join(__dirname, filePath);
