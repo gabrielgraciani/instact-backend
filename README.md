@@ -1,5 +1,16 @@
+# Node.js Rest APIs with Express & MySQL example
 
-## BACKEND INSTACT - NODE TYPESCRIPT
+For more detail, please visit:
+> [Build Node.js Rest APIs with Express & MySQL](https://bezkoder.com/node-js-rest-api-express-mysql/)
 
-para rodar o projeto é necessário no backend, utilizar o comando:
-- yarn tsc - para transpilar o código ts para código js dentro de uma pasta chamada dist, mas que pode ser alterada no arquivo tsconfig.json
+> [Deploying/Hosting Node.js app on Heroku with MySQL database](https://bezkoder.com/deploy-node-js-app-heroku-cleardb-mysql/)
+
+## Project setup
+```
+npm install
+```
+
+### Run
+```
+node server.js
+```
