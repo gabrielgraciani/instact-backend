@@ -1,5 +1,5 @@
 {
-  "name": "Instact back end",
+  "name": "instact-backend",
   "version": "1.0.0",
   "description": "Instact back end",
   "main": "server.js",
