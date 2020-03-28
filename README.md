@@ -1,16 +1,4 @@
-# Node.js Rest APIs with Express & MySQL example
-
-For more detail, please visit:
-> [Build Node.js Rest APIs with Express & MySQL](https://bezkoder.com/node-js-rest-api-express-mysql/)
-
-> [Deploying/Hosting Node.js app on Heroku with MySQL database](https://bezkoder.com/deploy-node-js-app-heroku-cleardb-mysql/)
-
-## Project setup
-```
-npm install
-```
-
-### Run
-```
-node server.js
-```
+Comandos Importantes
+- npx knex init - cria um arquivo na raíz criado knexfile.js, onde fica as configurações de acesos ao banco de dados.
+- npx knex migrate:make NOME_DO_ARQUIVO - cria a migration, ou seja, a tabela NOME_DO_ARQUIVO.
+- npx knex migrate:latest - executa a migration.
