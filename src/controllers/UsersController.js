@@ -16,7 +16,26 @@ module.exports = {
 			created_at,
 		});
 
-		return res.json({ id });
+		return res.json({ message: "User successfully created" });
+	},
+
+	async update (req, res) {
+		const { id } = req.params;
+
+		const { name, email } = req.body;
+
+		const user = await connection('users').where('id', id).select('*').first();
+
+		if (!user) {
+			return res.status(400).json({ error: 'No User found with this ID' });
+		}
+
+		await connection('users').where('id', id).update({
+			name,
+			email
+		});
+
+		return res.json({ message: "User successfully updated" });
 	},
 
 	async delete (req, res) {
@@ -30,6 +49,6 @@ module.exports = {
 
 		await connection('users').where('id', id).delete();
 
-		return res.status(204).send();
+		return res.json({ message: "User successfully deleted" });
 	}
 };
