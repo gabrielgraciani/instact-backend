@@ -2,6 +2,7 @@ const express = require('express');
 const { celebrate, Segments, Joi } = require('celebrate');
 
 const UsersController = require('./controllers/UsersController');
+const AuthController = require('./controllers/AuthController');
 
 const routes = express.Router();
 
@@ -33,5 +34,12 @@ routes.delete('/users/:id', celebrate({
 		id: Joi.number().required(),
 	}),
 }), UsersController.delete);
+
+routes.post('/authenticate', celebrate({
+	[Segments.BODY]: Joi.object().keys({
+		email: Joi.string().required().email(),
+		password: Joi.string().required(),
+	}),
+}), AuthController.index);
 
 module.exports = routes;

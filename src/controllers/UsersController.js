@@ -4,9 +4,9 @@ const moment = require('moment');
 
 module.exports = {
 	async index (req, res) {
-		const ongs = await connection('users').select('*');
+		const users = await connection('users').select('*');
 
-		return res.json(ongs);
+		return res.json(users);
 	},
 
 	async create (req, res) {
