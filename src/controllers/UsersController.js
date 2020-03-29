@@ -8,13 +8,15 @@ module.exports = {
 	},
 
 	async create (req, res) {
-		const { name, email, created_at} = req.body;
+		const { name, email, username, password, created_at} = req.body;
 
 		try {
 
 			const [id] = await connection('users').insert({
 				name,
 				email,
+				username,
+				password,
 				created_at,
 			});
 	
@@ -38,7 +40,7 @@ module.exports = {
 	async update (req, res) {
 		const { id } = req.params;
 
-		const { name, email } = req.body;
+		const { name, email, username, password } = req.body;
 
 		try {
 
@@ -55,7 +57,9 @@ module.exports = {
 	
 			await connection('users').where('id', id).update({
 				name,
-				email
+				email,
+				username,
+				password
 			});
 	
 			return res.json({ 

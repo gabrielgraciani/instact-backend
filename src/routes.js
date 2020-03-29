@@ -11,6 +11,8 @@ routes.post('/users', celebrate({
 	[Segments.BODY]: Joi.object().keys({
 		name: Joi.string().required(),
 		email: Joi.string().required().email(),
+		username: Joi.string().required(),
+		password: Joi.string().required(),
 	}),
 }), UsersController.create);
 
@@ -21,6 +23,8 @@ routes.put('/users/:id', celebrate({
 	[Segments.BODY]: Joi.object().keys({
 		name: Joi.string(),
 		email: Joi.string().email(),
+		username: Joi.string(),
+		password: Joi.string(),
 	})
 }), UsersController.update);
 
