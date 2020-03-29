@@ -10,13 +10,29 @@ module.exports = {
 	async create (req, res) {
 		const { name, email, created_at} = req.body;
 
-		const [id] = await connection('users').insert({
-			name,
-			email,
-			created_at,
-		});
+		try {
 
-		return res.json({ message: "User successfully created" });
+			const [id] = await connection('users').insert({
+				name,
+				email,
+				created_at,
+			});
+	
+			return res.json({ 
+				success: true, 
+				message: "User successfully created"
+			});
+
+		} catch (err) {
+
+			return res.status(400).json({ 
+				success: false, 
+				error: { 
+					message: "Error inserting user" 
+				} 
+			});
+
+		}
 	},
 
 	async update (req, res) {
@@ -24,31 +40,75 @@ module.exports = {
 
 		const { name, email } = req.body;
 
-		const user = await connection('users').where('id', id).select('*').first();
+		try {
 
-		if (!user) {
-			return res.status(400).json({ error: 'No User found with this ID' });
+			const user = await connection('users').where('id', id).select('*').first();
+
+			if (!user) {
+				return res.status(400).json({ 
+					success: false,
+					 error: {
+						 message: 'No User found with this ID'
+					 }
+				});
+			}
+	
+			await connection('users').where('id', id).update({
+				name,
+				email
+			});
+	
+			return res.json({ 
+				success: true,
+				message: "User successfully updated"
+			});
+
+		} catch (err) {
+
+			return res.status(400).json({ 
+				success: false, 
+				error: { 
+					message: "Error updating user" 
+				} 
+			});
+
 		}
-
-		await connection('users').where('id', id).update({
-			name,
-			email
-		});
-
-		return res.json({ message: "User successfully updated" });
 	},
 
 	async delete (req, res) {
 		const { id } = req.params;
 
-		const user = await connection('users').where('id', id).select('id').first();
+		try {
 
-		if (!user) {
-			return res.status(400).json({ error: 'No User found with this ID' });
+			const user = await connection('users').where('id', id).select('id').first();
+
+			if (!user) {
+				return res.status(400).json({ 
+					success: false,
+					error: {
+						message: 'No User found with this ID'
+					}  
+				});
+			}
+	
+			await connection('users').where('id', id).delete();
+	
+			return res.json({ 
+				success: true,
+				 message: "User successfully deleted" 
+			});
+			
+		} catch (err) {
+
+			return res.status(400).json({ 
+				success: false, 
+				error: { 
+					message: "Error deleting user" 
+				} 
+			});
+
 		}
 
-		await connection('users').where('id', id).delete();
 
-		return res.json({ message: "User successfully deleted" });
 	}
 };
