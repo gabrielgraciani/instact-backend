@@ -116,7 +116,35 @@ module.exports = {
 			});
 
 		}
+	},
 
+	async find (req, res) {
+		const { id } = req.params;
 
+		try {
+
+			const user = await connection('users').where('id', id).select('*').first();
+
+			if (!user) {
+				return res.status(400).json({
+					success: false,
+					error: {
+						message: 'No User found with this ID'
+					}
+				});
+			}
+
+			return res.json(user);
+
+		} catch (err) {
+
+			return res.status(400).json({
+				success: false,
+				error: {
+					message: "Error finding user"
+				}
+			});
+
+		}
 	}
 };

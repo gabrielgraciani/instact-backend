@@ -42,4 +42,10 @@ routes.post('/authenticate', celebrate({
 	}),
 }), AuthController.index);
 
+routes.get('/users/:id', celebrate({
+	[Segments.PARAMS]: Joi.object().keys({
+		id: Joi.number().required(),
+	}),
+}) , UsersController.find);
+
 module.exports = routes;
