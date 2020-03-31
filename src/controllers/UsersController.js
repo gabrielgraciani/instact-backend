@@ -14,6 +14,17 @@ module.exports = {
 
 		try {
 
+			const user = await connection('users').where('email', email).select('*').first();
+
+			if(user){
+				return res.status(400).json({
+					success: false,
+					error: {
+						message: "E-mail already used"
+					}
+				});
+			}
+
 			const created_at = moment().format();
 
 			const [id] = await connection('users').insert({
