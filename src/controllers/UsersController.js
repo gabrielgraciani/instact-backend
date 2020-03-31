@@ -19,9 +19,8 @@ module.exports = {
 			if(user){
 				return res.status(400).json({
 					success: false,
-					error: {
-						message: "E-mail already used"
-					}
+					error: 'Bad Request',
+					message: "E-mail already used",
 				});
 			}
 
@@ -44,9 +43,8 @@ module.exports = {
 
 			return res.status(400).json({
 				success: false,
-				error: {
-					message: "Error inserting user"
-				}
+				error: 'Bad Request',
+				message: "Error inserting user",
 			});
 
 		}
@@ -64,9 +62,8 @@ module.exports = {
 			if (!user) {
 				return res.status(400).json({
 					success: false,
-					 error: {
-						 message: 'No User found with this ID'
-					 }
+					error: 'Bad Request',
+					message: "No User found with this ID",
 				});
 			}
 
@@ -86,9 +83,8 @@ module.exports = {
 
 			return res.status(400).json({
 				success: false,
-				error: {
-					message: "Error updating user"
-				}
+				error: 'Bad Request',
+				message: "Error updating user",
 			});
 
 		}
@@ -104,9 +100,8 @@ module.exports = {
 			if (!user) {
 				return res.status(400).json({
 					success: false,
-					error: {
-						message: 'No User found with this ID'
-					}
+					error: 'Bad Request',
+					message: "No User found with this ID",
 				});
 			}
 
@@ -114,16 +109,15 @@ module.exports = {
 
 			return res.json({
 				success: true,
-				 message: "User successfully deleted"
+			    message: "User successfully deleted"
 			});
 
 		} catch (err) {
 
 			return res.status(400).json({
 				success: false,
-				error: {
-					message: "Error deleting user"
-				}
+				error: 'Bad Request',
+				message: "Error deleting user",
 			});
 
 		}
@@ -139,9 +133,8 @@ module.exports = {
 			if (!user) {
 				return res.status(400).json({
 					success: false,
-					error: {
-						message: 'No User found with this ID'
-					}
+					error: 'Bad Request',
+					message: "No User found with this ID",
 				});
 			}
 
@@ -151,9 +144,8 @@ module.exports = {
 
 			return res.status(400).json({
 				success: false,
-				error: {
-					message: "Error finding user"
-				}
+				error: 'Bad Request',
+				message: "Error finding user",
 			});
 
 		}
