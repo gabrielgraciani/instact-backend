@@ -12,9 +12,8 @@ module.exports = {
 			if(!user){
 				return res.status(400).json({
 					success: false,
-					error: {
-						message: 'No User found with this Email and Password'
-					}
+					error: 'Bad Request',
+					message: "No User found with this Email and Password",
 				});
 			}
 
@@ -24,9 +23,8 @@ module.exports = {
 
 			return res.status(400).json({
 				success: false,
-				error: {
-					message: "Login is not working"
-				}
+				error: 'Bad Request',
+				message: "Login is not working",
 			});
 
 
