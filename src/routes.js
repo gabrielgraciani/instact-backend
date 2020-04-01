@@ -26,8 +26,8 @@ routes.put('/users/:id', celebrate({
 		email: Joi.string().email(),
 		username: Joi.string(),
 		password: Joi.string(),
-		biography: Joi.string(),
-		telephone: Joi.string(),
+		biography: Joi.string().allow(''),
+		telephone: Joi.string().allow(''),
 	})
 }), UsersController.update);
 
