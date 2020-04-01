@@ -26,6 +26,8 @@ routes.put('/users/:id', celebrate({
 		email: Joi.string().email(),
 		username: Joi.string(),
 		password: Joi.string(),
+		biography: Joi.string(),
+		telephone: Joi.string(),
 	})
 }), UsersController.update);
 
@@ -35,6 +37,13 @@ routes.delete('/users/:id', celebrate({
 	}),
 }), UsersController.delete);
 
+routes.get('/users/:id', celebrate({
+	[Segments.PARAMS]: Joi.object().keys({
+		id: Joi.number().required(),
+	}),
+}) , UsersController.find);
+
+
 routes.post('/authenticate', celebrate({
 	[Segments.BODY]: Joi.object().keys({
 		email: Joi.string().required().email(),
@@ -42,10 +51,6 @@ routes.post('/authenticate', celebrate({
 	}),
 }), AuthController.index);
 
-routes.get('/users/:id', celebrate({
-	[Segments.PARAMS]: Joi.object().keys({
-		id: Joi.number().required(),
-	}),
-}) , UsersController.find);
+
 
 module.exports = routes;

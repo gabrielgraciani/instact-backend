@@ -53,7 +53,7 @@ module.exports = {
 	async update (req, res) {
 		const { id } = req.params;
 
-		const { name, email, username, password } = req.body;
+		const { name, email, username, password, biography, telephone } = req.body;
 
 		try {
 
@@ -71,7 +71,9 @@ module.exports = {
 				name,
 				email,
 				username,
-				password
+				password,
+				biography,
+				telephone
 			});
 
 			return res.json({
