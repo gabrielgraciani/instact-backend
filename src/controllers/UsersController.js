@@ -53,7 +53,7 @@ module.exports = {
 	async update (req, res) {
 		const { id } = req.params;
 
-		const { name, email, username, password, biography, telephone } = req.body;
+		const { name, email, username, password, biography, telephone, newpassword, newpasswordconfirm } = req.body;
 
 		try {
 
@@ -67,14 +67,32 @@ module.exports = {
 				});
 			}
 
-			await connection('users').where('id', id).update({
-				name,
-				email,
-				username,
-				password,
-				biography,
-				telephone
-			});
+			if(password !== '' && newpassword !== '' && newpasswordconfirm !== ''){
+				if(newpassword === newpasswordconfirm && password === user.password){
+					await connection('users').where('id', id).update({
+						password: newpassword
+					});
+				} else{
+					return res.status(400).json({
+						success: false,
+						error: 'Bad Request',
+						message: "Passwords do not match",
+					});
+				}
+
+			}
+			else{
+				await connection('users').where('id', id).update({
+					name,
+					email,
+					username,
+					password,
+					biography,
+					telephone
+				});
+			}
+
+
 
 			return res.json({
 				success: true,

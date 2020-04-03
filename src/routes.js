@@ -22,12 +22,14 @@ routes.put('/users/:id', celebrate({
 		id: Joi.number().required(),
 	}),
 	[Segments.BODY]: Joi.object().keys({
-		name: Joi.string(),
-		email: Joi.string().email(),
-		username: Joi.string(),
-		password: Joi.string(),
+		name: Joi.string().allow(''),
+		email: Joi.string().email().allow(''),
+		username: Joi.string().allow(''),
+		password: Joi.string().allow(''),
 		biography: Joi.string().allow(''),
 		telephone: Joi.string().allow(''),
+		newpassword: Joi.string().allow(''),
+		newpasswordconfirm: Joi.string().allow('')
 	})
 }), UsersController.update);
 
