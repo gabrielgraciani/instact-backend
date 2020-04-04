@@ -28,8 +28,8 @@ routes.put('/users/:id', celebrate({
 		email: Joi.string().email().allow(''),
 		username: Joi.string().allow(''),
 		password: Joi.string().allow(''),
-		biography: Joi.string().allow(''),
-		telephone: Joi.string().allow(''),
+		biography: Joi.string().default('').allow(''),
+		telephone: Joi.string().default('').allow(''),
 		newpassword: Joi.string().allow(''),
 		newpasswordconfirm: Joi.string().allow('')
 	})

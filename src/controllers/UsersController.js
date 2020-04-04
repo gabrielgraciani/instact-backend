@@ -113,7 +113,7 @@ module.exports = {
 	async update (req, res) {
 		const { id } = req.params;
 
-		const { name, email, username, password, biography, telephone, newpassword, newpasswordconfirm } = req.body;
+		const { name, email, username, biography = '', telephone = '', password = '', newpassword = '', newpasswordconfirm = '' } = req.body;
 
 		try {
 
@@ -146,7 +146,6 @@ module.exports = {
 					name,
 					email,
 					username,
-					password,
 					biography,
 					telephone
 				});
