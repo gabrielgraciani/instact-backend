@@ -4,3 +4,5 @@ package-lock.json
 .idea
 src/media/users/*
 !src/media/users/.gitkeep
+tmp/uploads/.gitkeep
+tmp/uploads/*

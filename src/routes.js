@@ -1,8 +1,16 @@
 const express = require('express');
 const { celebrate, Segments, Joi } = require('celebrate');
+const multer = require('multer');
+const multerConfig = require('./config/multer');
 
 const UsersController = require('./controllers/UsersController');
 const AuthController = require('./controllers/AuthController');
+
+const aws = require('aws-sdk');
+const s3 = new aws.S3();
+const fs = require('fs');
+const path = require('path');
+const { promisify } = require('util');
 
 const routes = express.Router();
 
@@ -56,6 +64,27 @@ routes.post('/authenticate', celebrate({
 	}),
 }), AuthController.index);
 
+
+
+routes.post('/posts', multer(multerConfig).single('file'), (req, res) => {
+
+	console.log(`${process.env.APP_URL}/files/${req.file.key}`);
+	console.log(req.file);
+
+	return res.json({ hello: 'world' });
+
+});
+
+routes.delete('/posts', (req, res) => {
+	if(process.env.STORAGE_TYPE === 's3'){
+		return s3.deleteObject({
+			Bucket: process.env.BUCKET,
+			Key: 'nome_do_arquivo'
+		}).promise()
+	} else {
+		return promisify(fs.unlink)(path.resolve(__dirname, '..', 'tmp', 'uploads', 'nome_do_arquivo'));
+	}
+});
 
 
 module.exports = routes;
