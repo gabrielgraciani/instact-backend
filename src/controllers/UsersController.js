@@ -152,8 +152,6 @@ module.exports = {
 				});
 			}
 
-
-
 			return res.json({
 				success: true,
 				message: "User successfully updated"
@@ -226,6 +224,36 @@ module.exports = {
 				success: false,
 				error: 'Bad Request',
 				message: "Error finding user",
+			});
+
+		}
+	},
+
+	async getProfileImage (req, res) {
+		const { id } = req.params;
+
+		try{
+
+			const user = await connection('users').where('id', id).select('*').first();
+
+			if (!user) {
+				return res.status(400).json({
+					success: false,
+					error: 'Bad Request',
+					message: "No User found with this ID",
+				});
+			}
+
+			const base_path = __basedir;
+			const file_path = `${base_path}/media/users/${id}`;
+
+			return res.sendFile(`${file_path}/${user.profile_image}`);
+
+		} catch (err) {
+			return res.status(400).json({
+				success: false,
+				error: 'Bad Request',
+				message: "Error finding profile image",
 			});
 
 		}
