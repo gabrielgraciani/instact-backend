@@ -47,7 +47,7 @@ routes.get('/users/:id', celebrate({
 	}),
 }) , UsersController.find);
 
-routes.get('/users/getImage/:id', UsersController.getProfileImage);
+routes.get('/users/get-image/:id', UsersController.getProfileImage);
 
 routes.post('/authenticate', celebrate({
 	[Segments.BODY]: Joi.object().keys({
