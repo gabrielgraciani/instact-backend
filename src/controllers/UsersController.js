@@ -50,66 +50,6 @@ module.exports = {
 		}
 	},
 
-	async sendProfileImage (req, res) {
-		const { id } = req.params;
-
-		try {
-
-			const user = await connection('users').where('id', id).select('*').first();
-
-			if (!user) {
-				return res.status(400).json({
-					success: false,
-					error: 'Bad Request',
-					message: "No User found with this ID",
-				});
-			}
-
-			if (req.files === null) {
-				return res.status(400).json({
-					success: false,
-					error: 'Bad Request',
-					message: "No file uploaded",
-				});
-			}
-
-			const file = req.files.file;
-			const base_path = __basedir;
-			const file_path = `${base_path}/media/users/${user.id}`;
-			const file_name = `${Date.now()}-${file.name}`;
-
-			if(fs.existsSync(file_path) && user.profile_image !== ''){
-				fs.unlinkSync(`${file_path}/${user.profile_image}`);
-			}
-
-			if (!fs.existsSync(file_path)) {
-				fs.mkdirSync(file_path);
-			}
-
-			file.mv(`${file_path}/${file_name}`);
-
-			await connection('users').where('id', id).update({
-				profile_image: file_name,
-			});
-
-
-
-			return res.json({
-				success: true,
-				message: "Profile Image successfully updated"
-			});
-
-		} catch (err) {
-
-			return res.status(400).json({
-				success: false,
-				error: 'Bad Request',
-				message: "Error uploading profile image",
-			});
-
-		}
-	},
-
 	async update (req, res) {
 		const { id } = req.params;
 
@@ -228,10 +168,10 @@ module.exports = {
 		}
 	},
 
-	async getProfileImage (req, res) {
+	async sendProfileImage (req, res) {
 		const { id } = req.params;
 
-		try{
+		try {
 
 			const user = await connection('users').where('id', id).select('*').first();
 
@@ -243,18 +183,27 @@ module.exports = {
 				});
 			}
 
-			const base_path = __basedir;
-			const file_path = `${base_path}/media/users/${id}`;
+			await connection('users').where('id', id).update({
+				profile_image: req.file.filename || req.file.originalname
+			});
 
-			return res.sendFile(`${file_path}/${user.profile_image}`);
+			//console.log(`${process.env.APP_URL}/files/${req.file.key}`);
+			//console.log(req.file);
+
+			return res.json({
+				success: true,
+				message: "Profile image successfully updated"
+			});
+
 
 		} catch (err) {
+
 			return res.status(400).json({
 				success: false,
 				error: 'Bad Request',
-				message: "Error finding profile image",
+				message: "Error uploading profile image",
 			});
 
 		}
-	}
+	},
 };

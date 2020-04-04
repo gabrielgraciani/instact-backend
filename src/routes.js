@@ -25,8 +25,6 @@ routes.post('/users', celebrate({
 	}),
 }), UsersController.create);
 
-routes.post('/users-image/:id', UsersController.sendProfileImage);
-
 routes.put('/users/:id', celebrate({
 	[Segments.PARAMS]: Joi.object().keys({
 		id: Joi.number().required(),
@@ -55,8 +53,6 @@ routes.get('/users/:id', celebrate({
 	}),
 }) , UsersController.find);
 
-routes.get('/users/get-image/:id', UsersController.getProfileImage);
-
 routes.post('/authenticate', celebrate({
 	[Segments.BODY]: Joi.object().keys({
 		email: Joi.string().required().email(),
@@ -65,15 +61,7 @@ routes.post('/authenticate', celebrate({
 }), AuthController.index);
 
 
-
-routes.post('/posts', multer(multerConfig).single('file'), (req, res) => {
-
-	console.log(`${process.env.APP_URL}/files/${req.file.key}`);
-	console.log(req.file);
-
-	return res.json({ hello: 'world' });
-
-});
+routes.post('/users/save-image/:id', multer(multerConfig).single('file'), UsersController.sendProfileImage);
 
 routes.delete('/posts', (req, res) => {
 	if(process.env.STORAGE_TYPE === 's3'){
