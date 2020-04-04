@@ -74,17 +74,22 @@ module.exports = {
 			}
 
 			const file = req.files.file;
-
 			const base_path = __basedir;
-
 			const file_path = `${base_path}/media/users/${user.id}`;
+			const file_name = `${Date.now()}-${file.name}`;
+
+			if(fs.existsSync(file_path) && user.profile_image !== ''){
+				fs.unlinkSync(`${file_path}/${user.profile_image}`);
+			}
+
 			if (!fs.existsSync(file_path)) {
 				fs.mkdirSync(file_path);
 			}
-				file.mv(`${file_path}/${file.name}`);
+
+			file.mv(`${file_path}/${file_name}`);
 
 			await connection('users').where('id', id).update({
-				profile_image: file.name,
+				profile_image: file_name,
 			});
 
 
