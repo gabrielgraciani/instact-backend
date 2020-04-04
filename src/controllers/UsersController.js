@@ -1,6 +1,6 @@
 const connection = require('../database/connection');
 const moment = require('moment');
-
+const fs = require('fs');
 
 module.exports = {
 	async index (req, res) {
@@ -45,6 +45,61 @@ module.exports = {
 				success: false,
 				error: 'Bad Request',
 				message: "Error inserting user",
+			});
+
+		}
+	},
+
+	async sendProfileImage (req, res) {
+		const { id } = req.params;
+
+		try {
+
+			const user = await connection('users').where('id', id).select('*').first();
+
+			if (!user) {
+				return res.status(400).json({
+					success: false,
+					error: 'Bad Request',
+					message: "No User found with this ID",
+				});
+			}
+
+			if (req.files === null) {
+				return res.status(400).json({
+					success: false,
+					error: 'Bad Request',
+					message: "No file uploaded",
+				});
+			}
+
+			const file = req.files.file;
+
+			const base_path = __basedir;
+
+			const file_path = `${base_path}/media/users/${user.id}`;
+			if (!fs.existsSync(file_path)) {
+				fs.mkdirSync(file_path);
+			}
+				file.mv(`${file_path}/${file.name}`);
+
+			await connection('users').where('id', id).update({
+				profile_image: file.name,
+			});
+
+
+
+			return res.json({
+				success: true,
+				message: "Profile Image successfully updated"
+			});
+
+		} catch (err) {
+
+			return res.status(400).json({
+				success: false,
+				error: 'Bad Request',
+				message: "Error uploading profile image",
 			});
 
 		}

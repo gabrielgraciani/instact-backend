@@ -17,6 +17,8 @@ routes.post('/users', celebrate({
 	}),
 }), UsersController.create);
 
+routes.post('/users-image/:id', UsersController.sendProfileImage);
+
 routes.put('/users/:id', celebrate({
 	[Segments.PARAMS]: Joi.object().keys({
 		id: Joi.number().required(),

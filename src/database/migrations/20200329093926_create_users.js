@@ -7,6 +7,7 @@ exports.up = function(knex) {
 		table.string('password').notNullable();
 		table.string('biography').nullable();
 		table.string('telephone').nullable();
+		table.string('profile_image').nullable();
 		table.dateTime('created_at').nullable();
 	});
 };
