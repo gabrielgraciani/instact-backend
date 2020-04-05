@@ -5,6 +5,7 @@ const multerConfig = require('./config/multer');
 
 const UsersController = require('./controllers/UsersController');
 const AuthController = require('./controllers/AuthController');
+const PostsController = require('./controllers/PostsController');
 
 const routes = express.Router();
 
@@ -55,5 +56,10 @@ routes.post('/authenticate', celebrate({
 }), AuthController.index);
 
 routes.post('/users/save-image/:id', multer(multerConfig).single('file'), UsersController.sendProfileImage);
+
+
+routes.get('/posts', PostsController.index);
+
+routes.post('/posts', PostsController.create);
 
 module.exports = routes;
