@@ -209,7 +209,8 @@ module.exports = {
 
 			return res.json({
 				success: true,
-				message: "Profile image successfully updated"
+				message: "Profile Image successfully updated",
+				profile_image: req.file.filename || req.file.filename
 			});
 
 
