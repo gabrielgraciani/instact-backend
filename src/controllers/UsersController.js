@@ -1,6 +1,10 @@
 const connection = require('../database/connection');
 const moment = require('moment');
 const fs = require('fs');
+const aws = require('aws-sdk');
+const s3 = new aws.S3();
+const path = require('path');
+const { promisify } = require('util');
 
 module.exports = {
 	async index (req, res) {
@@ -183,8 +187,21 @@ module.exports = {
 				});
 			}
 
+			if(user.profile_image !== ''){
+				if(process.env.STORAGE_TYPE === 's3'){
+					await s3.deleteObject({
+						Bucket: process.env.BUCKET,
+						Key: `users/${user.id}/${user.profile_image}`
+					}).promise();
+				} else {
+					promisify(fs.unlink)(path.resolve(__dirname, '..', '..', 'tmp', 'uploads', `${user.profile_image}`));
+				}
+			}
+
+
+
 			await connection('users').where('id', id).update({
-				profile_image: req.file.filename || req.file.originalname
+				profile_image: req.file.filename || req.file.filename
 			});
 
 			//console.log(`${process.env.APP_URL}/files/${req.file.key}`);

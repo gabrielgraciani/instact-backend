@@ -32,6 +32,7 @@ const storageTypes = {
 				const { id } = req.params;
 
 				const fileName = `users/${id}/${hash.toString('hex')}-${file.originalname}`;
+				file.filename = `${hash.toString('hex')}-${file.originalname}`;
 
 				cb(null, fileName);
 			});
