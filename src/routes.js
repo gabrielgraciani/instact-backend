@@ -6,6 +6,7 @@ const multerConfig = require('./config/multer');
 const UsersController = require('./controllers/UsersController');
 const AuthController = require('./controllers/AuthController');
 const PostsController = require('./controllers/PostsController');
+const FollowsController = require('./controllers/FollowsController');
 
 const routes = express.Router();
 
@@ -65,5 +66,10 @@ routes.post('/posts', PostsController.create);
 routes.put('/posts/:id', PostsController.update);
 
 routes.delete('/posts/:id', PostsController.delete);
+
+
+routes.get('/follows', FollowsController.index);
+
+routes.post('/follows/:sent_users_id&:received_users_id', FollowsController.create);
 
 module.exports = routes;
