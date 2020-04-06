@@ -62,4 +62,8 @@ routes.get('/posts', PostsController.index);
 
 routes.post('/posts', PostsController.create);
 
+routes.put('/posts/:id', PostsController.update);
+
+routes.delete('/posts/:id', PostsController.delete);
+
 module.exports = routes;
