@@ -7,6 +7,7 @@ const UsersController = require('./controllers/UsersController');
 const AuthController = require('./controllers/AuthController');
 const PostsController = require('./controllers/PostsController');
 const FollowsController = require('./controllers/FollowsController');
+const LikesController = require('./controllers/LikesController');
 
 const routes = express.Router();
 
@@ -67,9 +68,16 @@ routes.put('/posts/:id', PostsController.update);
 
 routes.delete('/posts/:id', PostsController.delete);
 
+routes.get('/posts/:id', PostsController.find);
+
+routes.get('/all-posts-from-user/:id', PostsController.findAllPostsFromUser);
+
 
 routes.get('/follows', FollowsController.index);
 
 routes.post('/follows/:sent_users_id&:received_users_id', FollowsController.create);
+
+
+routes.get('/likes', LikesController.index);
 
 module.exports = routes;

@@ -125,6 +125,62 @@ module.exports = {
 			});
 
 		}
-	}
+	},
+
+	async find (req, res) {
+		const { id } = req.params;
+
+		try {
+
+			const post = await connection('posts').where('id', id).select('*').first();
+
+			if (!post) {
+				return res.status(400).json({
+					success: false,
+					error: 'Bad Request',
+					message: "No post found with this ID",
+				});
+			}
+
+			return res.json(post);
+
+		} catch (err) {
+
+			return res.status(400).json({
+				success: false,
+				error: 'Bad Request',
+				message: "Error finding post",
+			});
+
+		}
+	},
+
+	async findAllPostsFromUser (req, res) {
+		const { id } = req.params;
+
+		try {
+
+			const post = await connection('posts').where('users_id', id).select('*');
+
+			if (!post) {
+				return res.status(400).json({
+					success: false,
+					error: 'Bad Request',
+					message: "No post found with this ID",
+				});
+			}
+
+			return res.json(post);
+
+		} catch (err) {
+
+			return res.status(400).json({
+				success: false,
+				error: 'Bad Request',
+				message: "Error finding post",
+			});
+
+		}
+	},
 
 };
