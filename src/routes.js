@@ -80,4 +80,8 @@ routes.post('/follows/:sent_users_id&:received_users_id', FollowsController.crea
 
 routes.get('/likes', LikesController.index);
 
+routes.post('/likes', LikesController.create);
+
+routes.delete('/likes/:id', LikesController.delete);
+
 module.exports = routes;
