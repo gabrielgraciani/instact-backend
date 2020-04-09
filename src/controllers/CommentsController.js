@@ -3,14 +3,14 @@ const moment = require('moment');
 
 module.exports = {
 	async index (req, res) {
-		const likes = await connection('posts_likes').select('*');
+		const comments = await connection('posts_comments').select('*');
 
-		return res.json(likes);
+		return res.json(comments);
 	},
 
 	async create (req, res) {
 		const users_id = req.headers.authorization;
-		const { posts_id } = req.body;
+		const { comment, posts_id } = req.body;
 
 		try {
 
@@ -28,21 +28,22 @@ module.exports = {
 				return res.status(401).json({
 					success: false,
 					error: 'Bad Request',
-					message: "You cannot like this post",
+					message: "You cannot comment this post",
 				});
 			}
 
 			const created_at = moment().format();
 
-			await connection('posts_likes').insert({
+			await connection('posts_comments').insert({
 				created_at,
+				comment,
 				posts_id,
 				users_id,
 			});
 
 			return res.json({
 				success: true,
-				message: "Post successfully created"
+				message: "Comment successfully created"
 			});
 
 		} catch (err) {
@@ -50,7 +51,7 @@ module.exports = {
 			return res.status(400).json({
 				success: false,
 				error: 'Bad Request',
-				message: "Error inserting like",
+				message: "Error inserting comment",
 			});
 
 		}
@@ -62,29 +63,29 @@ module.exports = {
 
 		try {
 
-			const like = await connection('posts_likes').where('id', id).select('id', 'users_id').first();
+			const comment = await connection('posts_comments').where('id', id).select('id', 'users_id').first();
 
-			if (!like) {
+			if (!comment) {
 				return res.status(404).json({
 					success: false,
 					error: 'Bad Request',
-					message: "No Post found with this ID",
+					message: "No Comment found with this ID",
 				});
 			}
 
-			if(like.users_id.toString() !== users_id.toString()){
+			if(comment.users_id.toString() !== users_id.toString()){
 				return res.status(401).json({
 					success: false,
 					error: 'Bad Request',
-					message: "You cannot delete the like",
+					message: "You cannot delete the comment",
 				});
 			}
 
-			await connection('posts_likes').where('id', id).delete();
+			await connection('posts_comments').where('id', id).delete();
 
 			return res.json({
 				success: true,
-				message: "Like successfully deleted"
+				message: "Comment successfully deleted"
 			});
 
 		} catch (err) {
@@ -92,7 +93,7 @@ module.exports = {
 			return res.status(400).json({
 				success: false,
 				error: 'Bad Request',
-				message: "Error deleting like",
+				message: "Error deleting comment",
 			});
 
 		}
