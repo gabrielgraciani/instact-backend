@@ -2,6 +2,7 @@ const express = require('express');
 const { celebrate, Segments, Joi } = require('celebrate');
 const multer = require('multer');
 const multerConfig = require('./config/multer');
+const multerPostConfig = require('./config/multerPost');
 
 const UsersController = require('./controllers/UsersController');
 const AuthController = require('./controllers/AuthController');
@@ -55,8 +56,8 @@ routes.post('/authenticate', celebrate({
 routes.post('/users/save-image/:id', multer(multerConfig).single('file'), UsersController.sendProfileImage);
 
 routes.get('/posts', PostsController.index);
-routes.post('/posts', PostsController.create);
-routes.put('/posts/:id', PostsController.update);
+routes.post('/posts', multer(multerPostConfig).single('file'), PostsController.create);
+routes.put('/posts/:id', multer(multerPostConfig).single('file'), PostsController.update);
 routes.delete('/posts/:id', PostsController.delete);
 routes.get('/posts/:id', PostsController.find);
 routes.get('/all-posts-from-user/:id', PostsController.findAllPostsFromUser);

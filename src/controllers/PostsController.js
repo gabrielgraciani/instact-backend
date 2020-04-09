@@ -1,5 +1,10 @@
 const connection = require('../database/connection');
 const moment = require('moment');
+const fs = require('fs');
+const aws = require('aws-sdk');
+const s3 = new aws.S3();
+const path = require('path');
+const { promisify } = require('util');
 
 module.exports = {
 	async index (req, res) {
@@ -9,7 +14,7 @@ module.exports = {
 	},
 
 	async create (req, res) {
-		const { description, users_id, file } = req.body;
+		const { description, users_id } = req.body;
 
 		try {
 
@@ -17,7 +22,7 @@ module.exports = {
 
 			await connection('posts').insert({
 				description,
-				file,
+				file: req.file.filename,
 				created_at,
 				users_id,
 			});
@@ -42,14 +47,14 @@ module.exports = {
 		const { id } = req.params;
 		const users_id = req.headers.authorization;
 
-		const { description, file } = req.body;
+		const { description } = req.body;
 
 		try {
 
 			const post = await connection('posts').where('id', id).select('*').first();
 
 			if (!post) {
-				return res.status(404).json({
+				return res.status(400).json({
 					success: false,
 					error: 'Bad Request',
 					message: "No Post found with this ID",
@@ -64,9 +69,20 @@ module.exports = {
 				});
 			}
 
+			if(post.file !== ''){
+				if(process.env.STORAGE_TYPE === 's3'){
+					await s3.deleteObject({
+						Bucket: process.env.BUCKET,
+						Key: `posts/${post.file}`
+					}).promise();
+				} else {
+					promisify(fs.unlink)(path.resolve(__dirname, '..', '..', 'tmp', 'uploads', `${post.file}`));
+				}
+			}
+
 			await connection('posts').where('id', id).update({
 				description,
-				file,
+				file: req.file.filename,
 			});
 
 			return res.json({
@@ -91,7 +107,7 @@ module.exports = {
 
 		try {
 
-			const post = await connection('posts').where('id', id).select('id', 'users_id').first();
+			const post = await connection('posts').where('id', id).select('id', 'users_id', 'file').first();
 
 			if (!post) {
 				return res.status(404).json({
@@ -107,6 +123,17 @@ module.exports = {
 					error: 'Bad Request',
 					message: "This Post cannot delete the post",
 				});
+			}
+
+			if(post.file !== ''){
+				if(process.env.STORAGE_TYPE === 's3'){
+					await s3.deleteObject({
+						Bucket: process.env.BUCKET,
+						Key: `posts/${post.file}`
+					}).promise();
+				} else {
+					promisify(fs.unlink)(path.resolve(__dirname, '..', '..', 'tmp', 'uploads', `${post.file}`));
+				}
 			}
 
 			await connection('posts').where('id', id).delete();
