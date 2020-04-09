@@ -19,12 +19,21 @@ module.exports = {
 		try {
 
 			const user = await connection('users').where('email', email).select('*').first();
+			const user_username = await connection('users').where('username', username).select('*').first();
 
 			if(user){
 				return res.status(409).json({
 					success: false,
 					error: 'Bad Request',
 					message: "E-mail already used",
+				});
+			}
+
+			if(user_username){
+				return res.status(409).json({
+					success: false,
+					error: 'Bad Request',
+					message: "Username already used",
 				});
 			}
 
