@@ -10,7 +10,7 @@ module.exports = {
 			const user = await connection('users').where('email', email).where('password', password).select('*').first();
 
 			if(!user){
-				return res.status(400).json({
+				return res.status(404).json({
 					success: false,
 					error: 'Bad Request',
 					message: "No User found with this Email and Password",

@@ -21,7 +21,7 @@ module.exports = {
 			const user = await connection('users').where('email', email).select('*').first();
 
 			if(user){
-				return res.status(400).json({
+				return res.status(409).json({
 					success: false,
 					error: 'Bad Request',
 					message: "E-mail already used",
@@ -64,7 +64,7 @@ module.exports = {
 			const user = await connection('users').where('id', id).select('*').first();
 
 			if (!user) {
-				return res.status(400).json({
+				return res.status(404).json({
 					success: false,
 					error: 'Bad Request',
 					message: "No User found with this ID",
@@ -119,7 +119,7 @@ module.exports = {
 			const user = await connection('users').where('id', id).select('id').first();
 
 			if (!user) {
-				return res.status(400).json({
+				return res.status(404).json({
 					success: false,
 					error: 'Bad Request',
 					message: "No User found with this ID",
@@ -152,7 +152,7 @@ module.exports = {
 			const user = await connection('users').where('id', id).select('*').first();
 
 			if (!user) {
-				return res.status(400).json({
+				return res.status(404).json({
 					success: false,
 					error: 'Bad Request',
 					message: "No User found with this ID",
@@ -180,7 +180,7 @@ module.exports = {
 			const user = await connection('users').where('id', id).select('*').first();
 
 			if (!user) {
-				return res.status(400).json({
+				return res.status(404).json({
 					success: false,
 					error: 'Bad Request',
 					message: "No User found with this ID",

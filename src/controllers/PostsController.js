@@ -49,7 +49,7 @@ module.exports = {
 			const post = await connection('posts').where('id', id).select('*').first();
 
 			if (!post) {
-				return res.status(400).json({
+				return res.status(404).json({
 					success: false,
 					error: 'Bad Request',
 					message: "No Post found with this ID",
@@ -57,7 +57,7 @@ module.exports = {
 			}
 
 			if(post.users_id.toString() !== users_id.toString()){
-				return res.status(400).json({
+				return res.status(401).json({
 					success: false,
 					error: 'Bad Request',
 					message: "This Post cannot update the post",
@@ -94,7 +94,7 @@ module.exports = {
 			const post = await connection('posts').where('id', id).select('id', 'users_id').first();
 
 			if (!post) {
-				return res.status(400).json({
+				return res.status(404).json({
 					success: false,
 					error: 'Bad Request',
 					message: "No Post found with this ID",
@@ -102,7 +102,7 @@ module.exports = {
 			}
 
 			if(post.users_id.toString() !== users_id.toString()){
-				return res.status(400).json({
+				return res.status(401).json({
 					success: false,
 					error: 'Bad Request',
 					message: "This Post cannot delete the post",
@@ -135,7 +135,7 @@ module.exports = {
 			const post = await connection('posts').where('id', id).select('*').first();
 
 			if (!post) {
-				return res.status(400).json({
+				return res.status(404).json({
 					success: false,
 					error: 'Bad Request',
 					message: "No post found with this ID",
@@ -163,7 +163,7 @@ module.exports = {
 			const post = await connection('posts').where('users_id', id).select('*');
 
 			if (!post) {
-				return res.status(400).json({
+				return res.status(404).json({
 					success: false,
 					error: 'Bad Request',
 					message: "No post found with this ID",

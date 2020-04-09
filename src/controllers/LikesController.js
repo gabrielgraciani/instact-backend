@@ -17,7 +17,7 @@ module.exports = {
 			const post = await connection('posts').where('id', posts_id).select('*').first();
 
 			if (!post) {
-				return res.status(400).json({
+				return res.status(404).json({
 					success: false,
 					error: 'Bad Request',
 					message: "No Post found with this ID",
@@ -25,7 +25,7 @@ module.exports = {
 			}
 
 			if(post.users_id.toString() !== users_id.toString()){
-				return res.status(400).json({
+				return res.status(401).json({
 					success: false,
 					error: 'Bad Request',
 					message: "You cannot like this post",
@@ -62,10 +62,10 @@ module.exports = {
 
 		try {
 
-			const like = await connection('likes').where('id', id).select('id', 'users_id').first();
+			const like = await connection('posts_likes').where('id', id).select('id', 'users_id').first();
 
 			if (!like) {
-				return res.status(400).json({
+				return res.status(404).json({
 					success: false,
 					error: 'Bad Request',
 					message: "No Post found with this ID",
@@ -73,7 +73,7 @@ module.exports = {
 			}
 
 			if(like.users_id.toString() !== users_id.toString()){
-				return res.status(400).json({
+				return res.status(401).json({
 					success: false,
 					error: 'Bad Request',
 					message: "You cannot delete the like",
