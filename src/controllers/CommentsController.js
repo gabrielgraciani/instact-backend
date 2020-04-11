@@ -3,7 +3,14 @@ const moment = require('moment');
 
 module.exports = {
 	async index (req, res) {
-		const comments = await connection('posts_comments').select('*');
+
+		const comments = await connection
+		.select([
+			'posts_comments.*',
+			'users.username',
+		])
+		.from('posts_comments')
+		.innerJoin('users', 'users.id', '=', 'posts_comments.users_id');
 
 		return res.json(comments);
 	},
@@ -94,6 +101,43 @@ module.exports = {
 				success: false,
 				error: 'Bad Request',
 				message: "Error deleting comment",
+			});
+
+		}
+	},
+
+	async find (req, res) {
+		const { id } = req.params;
+
+		try {
+
+			//const comments = await connection('posts_comments').where('posts_id', id).select('*').limit(3);
+
+			const comments = await connection
+			.select([
+				'posts_comments.*',
+				'users.username', 'users.profile_image'
+			])
+			.from('posts_comments')
+			.innerJoin('users', 'users.id', '=', 'posts_comments.users_id')
+			.where('posts_id', id);
+
+			if (!comments) {
+				return res.status(404).json({
+					success: false,
+					error: 'Bad Request',
+					message: "No Comments found for this post",
+				});
+			}
+
+			return res.json(comments);
+
+		} catch (err) {
+
+			return res.status(400).json({
+				success: false,
+				error: 'Bad Request',
+				message: "Error finding comments",
 			});
 
 		}

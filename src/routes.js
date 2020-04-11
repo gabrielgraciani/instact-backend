@@ -72,5 +72,6 @@ routes.delete('/likes/:id', LikesController.delete);
 routes.get('/comments', CommentsController.index);
 routes.post('/comments', CommentsController.create);
 routes.delete('/comments/:id', CommentsController.delete);
+routes.get('/comments/:id', CommentsController.find);
 
 module.exports = routes;
