@@ -8,12 +8,15 @@ const { promisify } = require('util');
 
 module.exports = {
 	async index (req, res) {
-		const posts = await connection('posts')
-		.join('users', 'users.id', '=', 'posts.users_id')
+		const posts = await connection
 		.select([
 			'posts.*',
-			'users.name', 'users.username', 'users.profile_image'
+			'users.name', 'users.username', 'users.profile_image',
+			connection.raw('(SELECT COUNT(*) from posts_likes WHERE posts_likes.posts_id = posts.id) AS qt_likes'),
+			connection.raw('(SELECT COUNT(*) from posts_comments WHERE posts_comments.posts_id = posts.id) AS qt_comments')
 		])
+		.from('posts')
+		.innerJoin('users', 'users.id', '=', 'posts.users_id')
 		.orderBy('posts.created_at', 'DESC');
 
 		return res.json(posts);
