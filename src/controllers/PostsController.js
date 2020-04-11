@@ -13,11 +13,12 @@ module.exports = {
 			'posts.*',
 			'users.name', 'users.username', 'users.profile_image',
 			connection.raw('(SELECT COUNT(*) from posts_likes WHERE posts_likes.posts_id = posts.id) AS qt_likes'),
-			connection.raw('(SELECT COUNT(*) from posts_comments WHERE posts_comments.posts_id = posts.id) AS qt_comments')
+			connection.raw('(SELECT COUNT(*) from posts_comments WHERE posts_comments.posts_id = posts.id) AS qt_comments'),
 		])
 		.from('posts')
 		.innerJoin('users', 'users.id', '=', 'posts.users_id')
 		.orderBy('posts.created_at', 'DESC');
+
 
 		return res.json(posts);
 	},
@@ -29,7 +30,7 @@ module.exports = {
 
 			const created_at = moment().format();
 
-			await connection('posts').insert({
+			const [id] = await connection('posts').insert({
 				description,
 				file: req.file.filename,
 				created_at,
@@ -38,7 +39,14 @@ module.exports = {
 
 			return res.json({
 				success: true,
-				message: "Post successfully created"
+				message: "Post successfully created",
+				post: {
+					id,
+					description,
+					file: req.file.filename,
+					created_at,
+					users_id
+				}
 			});
 
 		} catch (err) {
