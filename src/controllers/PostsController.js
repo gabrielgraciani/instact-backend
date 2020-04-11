@@ -176,7 +176,18 @@ module.exports = {
 
 		try {
 
-			const post = await connection('posts').where('id', id).select('*').first();
+			//const post = await connection('posts').where('id', id).select('*').first();
+
+			const post = await connection
+			.select([
+				'posts.*',
+				'users.name', 'users.username', 'users.profile_image',
+				connection.raw('(SELECT COUNT(*) from posts_likes WHERE posts_likes.posts_id = posts.id) AS qt_likes'),
+				connection.raw('(SELECT COUNT(*) from posts_comments WHERE posts_comments.posts_id = posts.id) AS qt_comments'),
+			])
+			.from('posts')
+			.innerJoin('users', 'users.id', '=', 'posts.users_id')
+			.where('posts.id', id).first();
 
 			if (!post) {
 				return res.status(404).json({
