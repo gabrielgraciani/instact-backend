@@ -8,7 +8,13 @@ const { promisify } = require('util');
 
 module.exports = {
 	async index (req, res) {
-		const posts = await connection('posts').select('*');
+		const posts = await connection('posts')
+		.join('users', 'users.id', '=', 'posts.users_id')
+		.select([
+			'posts.*',
+			'users.name', 'users.username', 'users.profile_image'
+		])
+		.orderBy('posts.created_at', 'DESC');
 
 		return res.json(posts);
 	},
