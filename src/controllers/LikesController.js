@@ -15,6 +15,7 @@ module.exports = {
 		try {
 
 			const post = await connection('posts').where('id', posts_id).select('*').first();
+			const user = await connection('users').where('id', users_id).select('id').first();
 
 			if (!post) {
 				return res.status(404).json({
@@ -24,11 +25,11 @@ module.exports = {
 				});
 			}
 
-			if(post.users_id.toString() !== users_id.toString()){
-				return res.status(401).json({
+			if (!user) {
+				return res.status(404).json({
 					success: false,
 					error: 'Bad Request',
-					message: "You cannot like this post",
+					message: "No User found to like this post",
 				});
 			}
 
