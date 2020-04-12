@@ -3,7 +3,14 @@ const moment = require('moment');
 
 module.exports = {
 	async index (req, res) {
-		const likes = await connection('posts_likes').select('*');
+		const likes = await connection
+		.select([
+			'posts_likes.*',
+			'users.username',
+			'users.profile_image'
+		])
+		.from('posts_likes')
+		.innerJoin('users', 'users.id', '=', 'posts_likes.users_id');
 
 		return res.json(likes);
 	},
