@@ -42,7 +42,7 @@ module.exports = {
 
 			const created_at = moment().format();
 
-			await connection('posts_likes').insert({
+			const [id] = await connection('posts_likes').insert({
 				created_at,
 				posts_id,
 				users_id,
@@ -50,7 +50,8 @@ module.exports = {
 
 			return res.json({
 				success: true,
-				message: "Post successfully created"
+				message: "Post successfully created",
+				like_id: id
 			});
 
 		} catch (err) {
