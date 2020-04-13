@@ -10,7 +10,8 @@ module.exports = {
 			'users.username',
 		])
 		.from('posts_comments')
-		.innerJoin('users', 'users.id', '=', 'posts_comments.users_id');
+		.innerJoin('users', 'users.id', '=', 'posts_comments.users_id')
+		.orderBy('posts_comments.created_at', 'ASC');
 
 		return res.json(comments);
 	},
@@ -22,6 +23,7 @@ module.exports = {
 		try {
 
 			const post = await connection('posts').where('id', posts_id).select('*').first();
+			const user = await connection('users').where('id', users_id).select('username').first();
 
 			if (!post) {
 				return res.status(404).json({
@@ -50,7 +52,11 @@ module.exports = {
 
 			return res.json({
 				success: true,
-				message: "Comment successfully created"
+				message: "Comment successfully created",
+				comment: {
+					comment,
+					username: user.username
+				}
 			});
 
 		} catch (err) {
