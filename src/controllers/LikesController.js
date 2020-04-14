@@ -6,6 +6,7 @@ module.exports = {
 		const likes = await connection
 		.select([
 			'posts_likes.*',
+			'users.name',
 			'users.username',
 			'users.profile_image'
 		])

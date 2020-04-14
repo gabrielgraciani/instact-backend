@@ -176,8 +176,6 @@ module.exports = {
 
 		try {
 
-			//const post = await connection('posts').where('id', id).select('*').first();
-
 			const post = await connection
 			.select([
 				'posts.*',
