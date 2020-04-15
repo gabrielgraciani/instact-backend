@@ -23,7 +23,7 @@ module.exports = {
 		try {
 
 			const post = await connection('posts').where('id', posts_id).select('*').first();
-			const user = await connection('users').where('id', users_id).select('id').first();
+			const user = await connection('users').where('id', users_id).select('id', 'name', 'username', 'profile_image').first();
 
 			if (!post) {
 				return res.status(404).json({
@@ -52,7 +52,16 @@ module.exports = {
 			return res.json({
 				success: true,
 				message: "Post successfully created",
-				like_id: id
+				like_id: id,
+				like_data: {
+					id,
+					created_at,
+					posts_id,
+					users_id,
+					name: user.name,
+					username: user.username,
+					profile_image: user.profile_image
+				}
 			});
 
 		} catch (err) {
