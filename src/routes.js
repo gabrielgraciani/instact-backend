@@ -64,6 +64,8 @@ routes.get('/all-posts-from-user/:id', PostsController.findAllPostsFromUser);
 
 routes.get('/follows', FollowsController.index);
 routes.post('/follows/:sent_users_id&:received_users_id', FollowsController.create);
+routes.delete('/follows/:sent_users_id&:received_users_id', FollowsController.delete);
+routes.get('/follows/:id', FollowsController.find);
 
 routes.get('/likes', LikesController.index);
 routes.post('/likes', LikesController.create);
