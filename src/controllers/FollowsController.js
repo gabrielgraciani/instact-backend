@@ -50,8 +50,6 @@ module.exports = {
 			await connection('follows')
 			.where('sent_users_id', sent_users_id)
 			.where('received_users_id', received_users_id)
-			.orWhere('sent_users_id', received_users_id)
-			.orWhere('received_users_id', sent_users_id)
 			.delete();
 
 			return res.json({
