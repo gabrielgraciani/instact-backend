@@ -238,7 +238,15 @@ module.exports = {
 
 		const { id } = req.params;
 
-		const users = await connection('users').select('*').whereNot('id', id).limit(5);
+		const users = await connection
+		.select('users.*', 'follows.sent_users_id', 'follows.received_users_id')
+		.from('users')
+		.leftJoin('follows', 'follows.sent_users_id', '=', 'users.id')
+		.whereNot('users.id', id)
+		.whereNull('follows.received_users_id')
+		.limit(5);
+
+		console.log('users', users);
 
 		return res.json(users);
 	},
