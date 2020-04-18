@@ -246,8 +246,6 @@ module.exports = {
 		.whereNull('follows.received_users_id')
 		.limit(5);
 
-		console.log('users', users);
-
 		return res.json(users);
 	},
 };

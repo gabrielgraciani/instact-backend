@@ -8,6 +8,9 @@ const { promisify } = require('util');
 
 module.exports = {
 	async index (req, res) {
+
+		const { page = 1 } = req.query;
+
 		const posts = await connection
 		.select([
 			'posts.*',
@@ -17,7 +20,9 @@ module.exports = {
 		])
 		.from('posts')
 		.innerJoin('users', 'users.id', '=', 'posts.users_id')
-		.orderBy('posts.created_at', 'DESC');
+		.orderBy('posts.created_at', 'DESC')
+		.limit(6)
+		.offset((page -1) * 6);
 
 
 		return res.json(posts);

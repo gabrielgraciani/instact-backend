@@ -56,7 +56,11 @@ routes.post('/authenticate', celebrate({
 routes.post('/users/save-image/:id', multer(multerConfig).single('file'), UsersController.sendProfileImage);
 routes.get('/sugestions/:id', UsersController.sugestions);
 
-routes.get('/posts', PostsController.index);
+routes.get('/posts', celebrate({
+	[Segments.QUERY]: Joi.object().keys({
+		page: Joi.number(),
+	}),
+}), PostsController.index);
 routes.post('/posts', multer(multerPostConfig).single('file'), PostsController.create);
 routes.put('/posts/:id', multer(multerPostConfig).single('file'), PostsController.update);
 routes.delete('/posts/:id', PostsController.delete);
