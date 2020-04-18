@@ -54,6 +54,7 @@ routes.post('/authenticate', celebrate({
 	}),
 }), AuthController.index);
 routes.post('/users/save-image/:id', multer(multerConfig).single('file'), UsersController.sendProfileImage);
+routes.get('/sugestions/:id', UsersController.sugestions);
 
 routes.get('/posts', PostsController.index);
 routes.post('/posts', multer(multerPostConfig).single('file'), PostsController.create);

@@ -233,4 +233,13 @@ module.exports = {
 
 		}
 	},
+
+	async sugestions (req, res) {
+
+		const { id } = req.params;
+
+		const users = await connection('users').select('*').whereNot('id', id).limit(5);
+
+		return res.json(users);
+	},
 };
