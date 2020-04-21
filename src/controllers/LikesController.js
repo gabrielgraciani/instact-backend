@@ -117,4 +117,39 @@ module.exports = {
 		}
 	},
 
+	async find (req, res) {
+		const { id } = req.params;
+
+		try {
+
+			const likes = await connection
+			.select([
+				'posts_likes.*',
+				'users.username', 'users.profile_image'
+			])
+			.from('posts_likes')
+			.innerJoin('users', 'users.id', '=', 'posts_likes.users_id')
+			.where('posts_id', id);
+
+			if (!likes) {
+				return res.status(404).json({
+					success: false,
+					error: 'Bad Request',
+					message: "No Comments found for this post",
+				});
+			}
+
+			return res.json(likes);
+
+		} catch (err) {
+
+			return res.status(400).json({
+				success: false,
+				error: 'Bad Request',
+				message: "Error finding likes",
+			});
+
+		}
+	},
+
 };

@@ -75,6 +75,7 @@ routes.get('/follows/:id', FollowsController.find);
 routes.get('/likes', LikesController.index);
 routes.post('/likes', LikesController.create);
 routes.delete('/likes/:id', LikesController.delete);
+routes.get('/likes/:id', LikesController.find);
 
 routes.get('/comments', CommentsController.index);
 routes.post('/comments', CommentsController.create);
