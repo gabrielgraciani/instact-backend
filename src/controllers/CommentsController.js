@@ -23,7 +23,7 @@ module.exports = {
 		try {
 
 			const post = await connection('posts').where('id', posts_id).select('*').first();
-			const user = await connection('users').where('id', users_id).select('username').first();
+			const user = await connection('users').where('id', users_id).select('username', 'profile_image').first();
 
 			if (!post) {
 				return res.status(404).json({
@@ -43,7 +43,7 @@ module.exports = {
 
 			const created_at = moment().format();
 
-			await connection('posts_comments').insert({
+			const [id] = await connection('posts_comments').insert({
 				created_at,
 				comment,
 				posts_id,
@@ -54,8 +54,12 @@ module.exports = {
 				success: true,
 				message: "Comment successfully created",
 				comment: {
+					id,
 					comment,
-					username: user.username
+					username: user.username,
+					profile_image: user.profile_image,
+					posts_id,
+					users_id
 				}
 			});
 
