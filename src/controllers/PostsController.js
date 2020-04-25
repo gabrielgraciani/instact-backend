@@ -215,10 +215,22 @@ module.exports = {
 
 	async findAllPostsFromUser (req, res) {
 		const { id } = req.params;
+		const { page = 1, limit = 6, posts_id = '' } = req.query;
 
 		try {
 
-			const post = await connection('posts').where('users_id', id).select('*');
+			const post = await connection
+			.select([
+				'posts.*',
+				connection.raw('(SELECT COUNT(*) from posts_likes WHERE posts_likes.posts_id = posts.id) AS qt_likes'),
+				connection.raw('(SELECT COUNT(*) from posts_comments WHERE posts_comments.posts_id = posts.id) AS qt_comments'),
+			])
+			.from('posts')
+			.where('users_id', id)
+			.whereNot('posts.id', posts_id)
+			.orderBy('posts.created_at', 'DESC')
+			.limit(limit)
+			.offset((page -1) * limit);
 
 			if (!post) {
 				return res.status(404).json({
@@ -231,6 +243,7 @@ module.exports = {
 			return res.json(post);
 
 		} catch (err) {
+			console.log('err', err);
 
 			return res.status(400).json({
 				success: false,
