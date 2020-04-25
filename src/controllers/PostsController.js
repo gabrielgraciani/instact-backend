@@ -50,7 +50,12 @@ module.exports = {
 					description,
 					file: req.file.filename,
 					created_at,
-					users_id
+					users_id,
+					comments: [],
+					likeId: '',
+					likes: [],
+					qt_comments: 0,
+					qt_likes: 0
 				}
 			});
 
