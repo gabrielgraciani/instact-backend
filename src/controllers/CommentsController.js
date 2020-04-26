@@ -33,14 +33,6 @@ module.exports = {
 				});
 			}
 
-			if(post.users_id.toString() !== users_id.toString()){
-				return res.status(401).json({
-					success: false,
-					error: 'Bad Request',
-					message: "You cannot comment this post",
-				});
-			}
-
 			const created_at = moment().format();
 
 			const [id] = await connection('posts_comments').insert({
