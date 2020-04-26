@@ -35,6 +35,8 @@ module.exports = {
 
 			const created_at = moment().format();
 
+			const user = await connection('users').where('id', users_id).select('username', 'name', 'profile_image').first();
+
 			const [id] = await connection('posts').insert({
 				description,
 				file: req.file.filename,
@@ -55,7 +57,10 @@ module.exports = {
 					likeId: '',
 					likes: [],
 					qt_comments: 0,
-					qt_likes: 0
+					qt_likes: 0,
+					name: user.name,
+					username: user.username,
+					profile_image: user.profile_image
 				}
 			});
 
