@@ -90,6 +90,11 @@ module.exports = {
 			});
 
 		}
+	},
+
+	async deleteAll (req, res) {
+		await connection('follows')
+		.delete();
 	}
 
 };

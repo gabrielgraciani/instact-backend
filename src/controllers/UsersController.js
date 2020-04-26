@@ -158,7 +158,16 @@ module.exports = {
 
 		try {
 
-			const user = await connection('users').where('id', id).select('*').first();
+			const user = await connection
+			.select([
+				'users.*',
+				connection.raw('(SELECT COUNT(*) from posts WHERE posts.users_id = users.id) AS qt_posts'),
+				connection.raw('(SELECT COUNT(*) from follows WHERE follows.sent_users_id = users.id) as qt_followers'),
+				connection.raw('(SELECT COUNT(*) from follows WHERE follows.received_users_id = users.id) as qt_following')
+			])
+			.from('users')
+			.where('users.id', id)
+			.first();
 
 			if (!user) {
 				return res.status(404).json({
