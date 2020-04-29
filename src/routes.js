@@ -47,6 +47,11 @@ routes.get('/users/:id', celebrate({
 		id: Joi.number().required(),
 	}),
 }) , UsersController.find);
+routes.get('/users-by-username/:username', celebrate({
+	[Segments.PARAMS]: Joi.object().keys({
+		username: Joi.string().required(),
+	}),
+}) , UsersController.findByUsername);
 routes.post('/authenticate', celebrate({
 	[Segments.BODY]: Joi.object().keys({
 		email: Joi.string().required().email(),

@@ -190,6 +190,43 @@ module.exports = {
 		}
 	},
 
+	async findByUsername (req, res) {
+		const { username } = req.params;
+
+		try {
+
+			const user = await connection
+			.select([
+				'users.*',
+				connection.raw('(SELECT COUNT(*) from posts WHERE posts.users_id = users.id) AS qt_posts'),
+				connection.raw('(SELECT COUNT(*) from follows WHERE follows.sent_users_id = users.id) as qt_followers'),
+				connection.raw('(SELECT COUNT(*) from follows WHERE follows.received_users_id = users.id) as qt_following')
+			])
+			.from('users')
+			.where('users.username', username)
+			.first();
+
+			if (!user) {
+				return res.status(404).json({
+					success: false,
+					error: 'Bad Request',
+					message: "No User found with this username",
+				});
+			}
+
+			return res.json(user);
+
+		} catch (err) {
+
+			return res.status(400).json({
+				success: false,
+				error: 'Bad Request',
+				message: "Error finding user",
+			});
+
+		}
+	},
+
 	async sendProfileImage (req, res) {
 		const { id } = req.params;
 
