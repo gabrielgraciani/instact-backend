@@ -92,17 +92,24 @@ module.exports = {
 						message: "Passwords do not match",
 					});
 				}
-
 			}
-			else{
-				await connection('users').where('id', id).update({
-					name,
-					email,
-					username,
-					biography,
-					telephone
+
+			const usernameCheck = await connection('users').where('username', username).select('*').first();
+			if(usernameCheck){
+				return res.status(400).json({
+					success: false,
+					error: 'Bad Request',
+					message: "Username already used",
 				});
 			}
+
+			await connection('users').where('id', id).update({
+				name,
+				email,
+				username,
+				biography,
+				telephone
+			});
 
 			return res.json({
 				success: true,
