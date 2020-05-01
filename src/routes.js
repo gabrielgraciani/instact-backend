@@ -60,6 +60,7 @@ routes.post('/authenticate', celebrate({
 }), AuthController.index);
 routes.post('/users/save-image/:id', multer(multerConfig).single('file'), UsersController.sendProfileImage);
 routes.get('/sugestions/:id', UsersController.sugestions);
+routes.get('/search/:search', UsersController.search);
 
 routes.get('/posts', celebrate({
 	[Segments.QUERY]: Joi.object().keys({

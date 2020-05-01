@@ -301,4 +301,18 @@ module.exports = {
 
 		return res.json(users);
 	},
+
+	async search (req, res) {
+		const { search } = req.params;
+		const users_id = req.headers.authorization;
+
+		const users = await connection
+		.select('*')
+		.from('users')
+		.where('name', 'like', `%${search}%`)
+		.whereNot('id', users_id)
+		.limit(20);
+
+		return res.json(users);
+	}
 };
