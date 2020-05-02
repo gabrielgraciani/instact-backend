@@ -96,11 +96,14 @@ module.exports = {
 
 			const usernameCheck = await connection('users').where('username', username).select('*').first();
 			if(usernameCheck){
-				return res.status(400).json({
-					success: false,
-					error: 'Bad Request',
-					message: "Username already used",
-				});
+				if(id !== usernameCheck.id){
+					return res.status(400).json({
+						success: false,
+						error: 'Bad Request',
+						message: "Username already used",
+					});
+				}
+
 			}
 
 			await connection('users').where('id', id).update({
@@ -310,7 +313,9 @@ module.exports = {
 		.select('*')
 		.from('users')
 		.where('name', 'like', `%${search}%`)
+		.orWhere('username', 'like', `%${search}%`)
 		.whereNot('id', users_id)
+		.orderBy('name', 'DESC')
 		.limit(20);
 
 		return res.json(users);
