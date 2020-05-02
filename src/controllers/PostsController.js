@@ -169,6 +169,8 @@ module.exports = {
 			}
 
 			await connection('posts').where('id', id).delete();
+			await connection('posts_likes').where('posts_id', id).delete();
+			await connection('posts_comments').where('posts_id', id).delete();
 
 			return res.json({
 				success: true,
