@@ -98,5 +98,6 @@ routes.delete('/conversas/', ConversasController.deleteAll);
 
 routes.get('/mensagens', MensagensController.index);
 routes.post('/mensagens/:conversas_id', MensagensController.create);
+routes.get('/mensagens/:conversas_id', MensagensController.find);
 
 module.exports = routes;

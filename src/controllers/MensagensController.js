@@ -47,4 +47,14 @@ module.exports = {
 		}
 	},
 
+	async find (req, res) {
+		const {conversas_id} = req.params;
+
+		const mensagens = await connection
+		.select('*')
+		.from('mensagens')
+		.where('conversas_id', conversas_id);
+
+		return res.json(mensagens);
+	}
 };
