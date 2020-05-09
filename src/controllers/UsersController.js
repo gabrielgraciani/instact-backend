@@ -312,8 +312,7 @@ module.exports = {
 		const users = await connection
 		.select('*')
 		.from('users')
-		.where('name', 'like', `%${search}%`)
-		.orWhere('username', 'like', `%${search}%`)
+		.where('username', 'like', `%${search}%`)
 		.whereNot('id', users_id)
 		.orderBy('name', 'DESC')
 		.limit(20);
