@@ -94,6 +94,7 @@ routes.get('/comments/:id', CommentsController.find);
 routes.get('/conversas', ConversasController.index);
 routes.post('/conversas', ConversasController.create);
 routes.get('/conversas/:users_id', ConversasController.find);
+routes.delete('/conversas/', ConversasController.deleteAll);
 
 routes.get('/mensagens', MensagensController.index);
 routes.post('/mensagens/:conversas_id', MensagensController.create);

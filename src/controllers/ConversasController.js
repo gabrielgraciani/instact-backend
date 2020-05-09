@@ -16,7 +16,15 @@ module.exports = {
 			const created_at = moment().format();
 			const updated_at = moment().format();
 
-			const { users_id1, users_id2, username1, username2, nome1, nome2, profile_image1, profile_image2 } = req.body;
+			const { users_id1, users_id2, username1, username2, nome1, nome2 } = req.body;
+			let { profile_image1, profile_image2 } = req.body;
+
+			if(profile_image1 === null){
+				profile_image1 = '';
+			}
+			if(profile_image2 === null){
+				profile_image2 = '';
+			}
 
 
 			const [id] = await connection('conversas').insert({
@@ -35,11 +43,23 @@ module.exports = {
 			return res.json({
 				success: true,
 				message: "Conversa successfully created",
+				conversa: {
+					id,
+					created_at,
+					updated_at,
+					users_id1,
+					nome1,
+					username1,
+					users_id2,
+					nome2,
+					username2,
+					profile_image1,
+					profile_image2
+				}
 			});
 
 		} catch (err) {
 
-			console.log('err', err);
 			return res.status(400).json({
 				success: false,
 				error: 'Bad Request',
@@ -61,5 +81,12 @@ module.exports = {
 
 		return res.json(conversas);
 	},
+
+	async deleteAll (req, res) {
+		await connection('conversas')
+		.delete();
+
+		res.send('deletado');
+	}
 
 };
