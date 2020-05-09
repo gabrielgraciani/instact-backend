@@ -10,6 +10,8 @@ const PostsController = require('./controllers/PostsController');
 const FollowsController = require('./controllers/FollowsController');
 const LikesController = require('./controllers/LikesController');
 const CommentsController = require('./controllers/CommentsController');
+const ConversasController = require('./controllers/ConversasController');
+const MensagensController = require('./controllers/MensagensController');
 
 const routes = express.Router();
 
@@ -88,5 +90,11 @@ routes.get('/comments', CommentsController.index);
 routes.post('/comments', CommentsController.create);
 routes.delete('/comments/:id', CommentsController.delete);
 routes.get('/comments/:id', CommentsController.find);
+
+routes.get('/conversas', ConversasController.index);
+routes.post('/conversas', ConversasController.create);
+
+routes.get('/mensagens', MensagensController.index);
+routes.post('/mensagens/:conversas_id', MensagensController.create);
 
 module.exports = routes;
