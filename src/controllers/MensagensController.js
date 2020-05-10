@@ -35,9 +35,17 @@ module.exports = {
 			return res.json({
 				success: true,
 				message: "mensagem successfully created",
+				obj: {
+					id,
+					created_at,
+					message,
+					users_id,
+					conversas_id
+				}
 			});
 
 		} catch (err) {
+			console.log('err', err);
 			return res.status(400).json({
 				success: false,
 				error: 'Bad Request',
