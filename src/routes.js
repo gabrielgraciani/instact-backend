@@ -95,9 +95,11 @@ routes.get('/conversas', ConversasController.index);
 routes.post('/conversas', ConversasController.create);
 routes.get('/conversas/:users_id', ConversasController.find);
 routes.delete('/conversas/', ConversasController.deleteAll);
+routes.put('/conversas/:conversas_id', ConversasController.update);
 
 routes.get('/mensagens', MensagensController.index);
 routes.post('/mensagens/:conversas_id', MensagensController.create);
 routes.get('/mensagens/:conversas_id', MensagensController.find);
+routes.delete('/mensagens', MensagensController.deleteAll);
 
 module.exports = routes;

@@ -83,6 +83,28 @@ module.exports = {
 		return res.json(conversas);
 	},
 
+	async update (req, res) {
+
+		const { conversas_id } = req.params;
+		const { users_id } = req.body;
+
+		const updated_at = moment().format();
+
+		await connection('conversas').where('id', conversas_id).update({
+			updated_at
+		});
+
+		const conversas = await connection
+		.select('*')
+		.from('conversas')
+		.where('users_id1', users_id)
+		.orWhere('users_id2', users_id)
+		.orderBy('updated_at', 'DESC');
+
+		return res.json(conversas);
+
+	},
+
 	async deleteAll (req, res) {
 		await connection('conversas')
 		.delete();

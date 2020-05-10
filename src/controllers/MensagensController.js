@@ -72,5 +72,12 @@ module.exports = {
 		.where('conversas_id', conversas_id);
 
 		return res.json(mensagens);
+	},
+
+	async deleteAll (req, res) {
+		await connection('mensagens')
+		.delete();
+
+		res.send('deletado');
 	}
 };
