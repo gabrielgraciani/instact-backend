@@ -39,8 +39,8 @@ module.exports = {
 					id,
 					created_at,
 					message,
-					users_id,
-					conversas_id
+					users_id: parseInt(users_id),
+					conversas_id: parseInt(conversas_id)
 				}
 			});
 
