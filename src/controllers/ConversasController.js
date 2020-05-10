@@ -77,7 +77,8 @@ module.exports = {
 		.select('*')
 		.from('conversas')
 		.where('users_id1', users_id)
-		.orWhere('users_id2', users_id);
+		.orWhere('users_id2', users_id)
+		.orderBy('updated_at', 'DESC');
 
 		return res.json(conversas);
 	},

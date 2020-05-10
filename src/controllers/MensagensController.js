@@ -32,6 +32,13 @@ module.exports = {
 				updated_at
 			});
 
+			const conversas = await connection
+			.select('*')
+			.from('conversas')
+			.where('users_id1', users_id)
+			.orWhere('users_id2', users_id)
+			.orderBy('updated_at', 'DESC');
+
 			return res.json({
 				success: true,
 				message: "mensagem successfully created",
@@ -41,7 +48,8 @@ module.exports = {
 					message,
 					users_id: parseInt(users_id),
 					conversas_id: parseInt(conversas_id)
-				}
+				},
+				conversas
 			});
 
 		} catch (err) {
