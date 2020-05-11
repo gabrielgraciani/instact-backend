@@ -12,6 +12,7 @@ const LikesController = require('./controllers/LikesController');
 const CommentsController = require('./controllers/CommentsController');
 const ConversasController = require('./controllers/ConversasController');
 const MensagensController = require('./controllers/MensagensController');
+const NotificationsController = require('./controllers/NotificationsController');
 
 const routes = express.Router();
 
@@ -101,5 +102,7 @@ routes.get('/mensagens', MensagensController.index);
 routes.post('/mensagens/:conversas_id', MensagensController.create);
 routes.get('/mensagens/:conversas_id', MensagensController.find);
 routes.delete('/mensagens', MensagensController.deleteAll);
+
+routes.get('/notifications', NotificationsController.index);
 
 module.exports = routes;
