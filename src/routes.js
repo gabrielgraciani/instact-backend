@@ -103,6 +103,6 @@ routes.post('/mensagens/:conversas_id', MensagensController.create);
 routes.get('/mensagens/:conversas_id', MensagensController.find);
 routes.delete('/mensagens', MensagensController.deleteAll);
 
-routes.get('/notifications', NotificationsController.index);
+routes.get('/notifications/:users_id', NotificationsController.index);
 
 module.exports = routes;
