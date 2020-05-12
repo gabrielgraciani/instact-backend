@@ -27,6 +27,10 @@ io.on('connection', socket => {
 		console.log('[SOCKET] Chat.message => ', data);
 		io.emit('chat.message', data);
 	});
+	socket.on('notifications.follow', data => {
+		console.log('[SOCKET] Notification.follow => ', data);
+		io.emit('notifications.follow', data);
+	});
 	socket.on('disconnect', () => {
 		console.log('[SOCKET] Disconnect => A connection was disconnected');
 	});

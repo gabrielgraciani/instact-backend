@@ -104,5 +104,6 @@ routes.get('/mensagens/:conversas_id', MensagensController.find);
 routes.delete('/mensagens', MensagensController.deleteAll);
 
 routes.get('/notifications/:users_id', NotificationsController.index);
+routes.get('/notifications-viewed/:users_id', NotificationsController.viewed);
 
 module.exports = routes;
